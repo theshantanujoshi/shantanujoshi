@@ -35,7 +35,7 @@ const IconMap: Record<string, React.FC<any>> = {
   FileText, Calendar, Linkedin, Github, Mail, Phone, Twitter, BookOpen, Instagram, Discord: DiscordIcon
 };
 
-type PageType = 'INDEX' | 'EXPERIENCE' | 'PROJECTS' | 'GALLERY' | 'NETWORK';
+type PageType = 'INDEX' | 'EXPERIENCE' | 'PROJECTS' | 'GALLERY' | 'SOCIALS';
 
 export default function App() {
   const [activePage, setActivePage] = useState<PageType>('INDEX');
@@ -82,7 +82,7 @@ export default function App() {
     if (navItem === 'HOME') navigateTo('INDEX');
     else if (navItem === 'EXPERIENCE') navigateTo('EXPERIENCE');
     else if (navItem === 'PROJECTS') navigateTo('PROJECTS');
-    else if (navItem === 'SOCIALS') navigateTo('NETWORK');
+    else if (navItem === 'SOCIALS') navigateTo('SOCIALS');
     else if (navItem === 'GALLERY') navigateTo('GALLERY');
     setIsNavOpen(false);
   };
@@ -99,7 +99,7 @@ export default function App() {
            if (item === 'EXPERIENCE' && activePage === 'EXPERIENCE') isActive = true;
            if (item === 'PROJECTS' && activePage === 'PROJECTS') isActive = true;
            if (item === 'GALLERY' && activePage === 'GALLERY') isActive = true;
-           if (item === 'SOCIALS' && activePage === 'NETWORK') isActive = true;
+           if (item === 'SOCIALS' && activePage === 'SOCIALS') isActive = true;
 
            return (
              <button 
@@ -137,7 +137,7 @@ export default function App() {
                 if (item === 'EXPERIENCE' && activePage === 'EXPERIENCE') isActive = true;
                 if (item === 'PROJECTS' && activePage === 'PROJECTS') isActive = true;
                 if (item === 'GALLERY' && activePage === 'GALLERY') isActive = true;
-                if (item === 'SOCIALS' && activePage === 'NETWORK') isActive = true;
+                if (item === 'SOCIALS' && activePage === 'SOCIALS') isActive = true;
 
                 return (
                   <button 
@@ -218,11 +218,11 @@ export default function App() {
         )}
 
         {activePage === 'GALLERY' && (
-          <GalleryPage onBack={() => navigateTo('PROJECTS')} onNext={() => navigateTo('NETWORK')} />
+          <GalleryPage onBack={() => navigateTo('PROJECTS')} onNext={() => navigateTo('SOCIALS')} />
         )}
 
-        {activePage === 'NETWORK' && (
-          <NetworkPage onBack={() => navigateTo('GALLERY')} />
+        {activePage === 'SOCIALS' && (
+          <SocialsPage onBack={() => navigateTo('GALLERY')} />
         )}
 
       </AnimatePresence>
@@ -875,7 +875,7 @@ function ScreenshotItem({ src, index, logicalSegmentMV, projectTitle }: { src: s
   );
 }
 
-function NetworkPage({ onBack }: { onBack: () => void }) {
+function SocialsPage({ onBack }: { onBack: () => void }) {
   const lenisRef = useRef<any>(null);
 
   useEffect(() => {
@@ -915,7 +915,7 @@ function NetworkPage({ onBack }: { onBack: () => void }) {
 
   return (
     <motion.div
-      key="network-page"
+      key="socials-page"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -40 }}
@@ -946,7 +946,7 @@ function NetworkPage({ onBack }: { onBack: () => void }) {
         <div className="w-full max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-col gap-12 md:gap-16 justify-center h-full">
           <header className="flex flex-col">
             <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white pointer-events-auto w-fit">
-              NETWORK
+              SOCIALS
             </h2>
           </header>
 
