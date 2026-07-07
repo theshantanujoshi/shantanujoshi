@@ -788,7 +788,13 @@ function ProjectCard({ project, scrollContainer, isFirstProject }: { project: Pr
     offset: ["start start", "end end"]
   });
 
-  const logicalSegmentMV = useTransform(scrollYProgress, (p) => {
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 20,
+    restDelta: 0.001
+  });
+
+  const logicalSegmentMV = useTransform(smoothProgress, (p) => {
     const rawSteps = p * effectiveSteps;
     return isFirstProject ? Math.max(0, rawSteps - 1) : rawSteps;
   });
