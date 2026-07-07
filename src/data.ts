@@ -79,6 +79,15 @@ export const TIMELINE_DATA: TimelineItem[] = [
 
   // --- CERTIFICATIONS ---
   {
+    id: 'cert-notion',
+    period: 'ISSUED JUN 2026',
+    company: 'NOTION',
+    role: 'NOTION ESSENTIALS BADGE',
+    details: 'Demonstrated proficiency in core Notion workspace features, including page creation, database management, and collaboration tools.',
+    stack: ['Notion', 'Workspace Management'],
+    category: 'certification'
+  },
+  {
     id: 'cert-vertex',
     period: 'ISSUED JUN 2026',
     company: 'GOOGLE',
