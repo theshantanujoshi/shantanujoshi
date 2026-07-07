@@ -79,15 +79,6 @@ export const TIMELINE_DATA: TimelineItem[] = [
 
   // --- CERTIFICATIONS ---
   {
-    id: 'cert-nvidia',
-    period: 'ISSUED JUN 2026',
-    company: 'GOOGLE',
-    role: 'GOOGLE CLOUD & NVIDIA COMMUNITY',
-    details: 'Recognized for active participation and skills development in the Google Cloud & NVIDIA community.',
-    stack: ['Google Cloud', 'NVIDIA'],
-    category: 'certification'
-  },
-  {
     id: 'cert-vertex',
     period: 'ISSUED JUN 2026',
     company: 'GOOGLE',
@@ -160,7 +151,16 @@ export const TIMELINE_DATA: TimelineItem[] = [
     category: 'certification'
   },
 
-  // --- VOLUNTEERING ---
+  // --- VOLUNTEERING & MEMBERSHIPS ---
+  {
+    id: 'vol-nvidia',
+    period: 'JUN 2026 — PRESENT',
+    company: 'GOOGLE CLOUD & NVIDIA',
+    role: 'COMMUNITY MEMBER',
+    details: 'Recognized member of the Google Cloud & NVIDIA community, engaging in discussions and skills development around cloud technologies and AI.',
+    stack: ['Google Cloud', 'NVIDIA', 'Community Engagement'],
+    category: 'volunteering'
+  },
   {
     id: 'vol-gdg',
     period: 'NOV 2025 — PRESENT',
