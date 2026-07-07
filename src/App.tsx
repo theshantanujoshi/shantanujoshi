@@ -1135,10 +1135,6 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
               }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => handleInteraction(index)}
-              onHoverStart={() => {
-                setActiveImage(index);
-                activeImageRef.current = index;
-              }}
             >
 
               {image.imageUrl && (
