@@ -82,7 +82,7 @@ export default function App() {
     if (navItem === 'HOME') navigateTo('INDEX');
     else if (navItem === 'EXPERIENCE') navigateTo('EXPERIENCE');
     else if (navItem === 'PROJECTS') navigateTo('PROJECTS');
-    else if (navItem === 'CONTACT') navigateTo('NETWORK');
+    else if (navItem === 'SOCIALS') navigateTo('NETWORK');
     else if (navItem === 'GALLERY') navigateTo('GALLERY');
     setIsNavOpen(false);
   };
@@ -93,13 +93,13 @@ export default function App() {
       
       {/* Desktop Navigation */}
       <nav className="hidden md:flex absolute top-8 right-10 z-50 gap-6 text-xs font-mono tracking-widest uppercase mix-blend-difference">
-         {['HOME', 'EXPERIENCE', 'PROJECTS', 'GALLERY', 'CONTACT'].map((item) => {
-           let isActive = false;
+         {['HOME', 'EXPERIENCE', 'PROJECTS', 'GALLERY', 'SOCIALS'].map((item) => {
+           let isActive = activePage === item;
            if (item === 'HOME' && activePage === 'INDEX') isActive = true;
            if (item === 'EXPERIENCE' && activePage === 'EXPERIENCE') isActive = true;
            if (item === 'PROJECTS' && activePage === 'PROJECTS') isActive = true;
            if (item === 'GALLERY' && activePage === 'GALLERY') isActive = true;
-           if (item === 'CONTACT' && activePage === 'NETWORK') isActive = true;
+           if (item === 'SOCIALS' && activePage === 'NETWORK') isActive = true;
 
            return (
              <button 
@@ -131,13 +131,13 @@ export default function App() {
             className="fixed inset-0 z-50 bg-black/80 flex flex-col items-center justify-center"
           >
             <nav className="flex flex-col gap-8 text-lg font-mono tracking-widest uppercase items-center">
-              {['HOME', 'EXPERIENCE', 'PROJECTS', 'GALLERY', 'CONTACT'].map((item) => {
-                let isActive = false;
+              {['HOME', 'EXPERIENCE', 'PROJECTS', 'GALLERY', 'SOCIALS'].map((item) => {
+                let isActive = activePage === item;
                 if (item === 'HOME' && activePage === 'INDEX') isActive = true;
                 if (item === 'EXPERIENCE' && activePage === 'EXPERIENCE') isActive = true;
                 if (item === 'PROJECTS' && activePage === 'PROJECTS') isActive = true;
                 if (item === 'GALLERY' && activePage === 'GALLERY') isActive = true;
-                if (item === 'CONTACT' && activePage === 'NETWORK') isActive = true;
+                if (item === 'SOCIALS' && activePage === 'NETWORK') isActive = true;
 
                 return (
                   <button 
@@ -756,13 +756,7 @@ function ProjectCard({ project, scrollContainer, isFirstProject }: { project: Pr
     offset: ["start start", "end end"]
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 20,
-    restDelta: 0.001
-  });
-
-  const logicalSegmentMV = useTransform(smoothProgress, (p) => {
+  const logicalSegmentMV = useTransform(scrollYProgress, (p) => {
     const rawSteps = p * effectiveSteps;
     return isFirstProject ? Math.max(0, rawSteps - 1) : rawSteps;
   });
