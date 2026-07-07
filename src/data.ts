@@ -156,7 +156,7 @@ export const TIMELINE_DATA: TimelineItem[] = [
     id: 'vol-nvidia',
     period: 'JUN 2026 — PRESENT',
     company: 'GOOGLE CLOUD & NVIDIA',
-    role: 'COMMUNITY MEMBER',
+    role: 'MEMBER',
     details: 'Recognized member of the Google Cloud & NVIDIA community, engaging in discussions and skills development around cloud technologies and AI.',
     stack: ['Google Cloud', 'NVIDIA', 'Community Engagement'],
     category: 'volunteering'
