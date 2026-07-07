@@ -1080,6 +1080,9 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
     const container = containerRef.current;
     if (!container) return;
 
+    // Find the full-page section wrapper to capture ALL scrolls while on this page
+    const sectionElement = container.closest('.snap-start') || container;
+
     let lastWheelTime = 0;
 
     const handleWheel = (e: WheelEvent) => {
@@ -1099,7 +1102,7 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
           if (now - lastWheelTime < 800) return; // Cooldown for page switch
           lastWheelTime = now;
 
-          const scrollParent = container.closest('.overflow-y-auto');
+          const scrollParent = sectionElement.closest('.overflow-y-auto');
           if (scrollParent) {
             scrollParent.scrollBy({ top: direction * window.innerHeight, behavior: 'smooth' });
           } else {
@@ -1116,8 +1119,8 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
       }
     };
 
-    container.addEventListener('wheel', handleWheel, { passive: false });
-    return () => container.removeEventListener('wheel', handleWheel);
+    sectionElement.addEventListener('wheel', handleWheel, { passive: false });
+    return () => sectionElement.removeEventListener('wheel', handleWheel);
   }, [images]);
 
   return (
