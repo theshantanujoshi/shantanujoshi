@@ -1043,7 +1043,38 @@ function LinkItem({ link, IconComponent }: { link: any, IconComponent: any, key?
 
 function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA, className?: string }) {
   const [activeImage, setActiveImage] = useState<number | null>(1);
+  const activeImageRef = useRef<number>(1);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const centerImage = (index: number) => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    
+    const rem = 16;
+    const inactiveWidth = (isMobile ? 2.5 : 5) * rem;
+    const activeWidth = (isMobile ? 18 : 28) * rem;
+    const gap = (isMobile ? 0.25 : 0.5) * rem;
+    const padding = (isMobile ? 1 : 2) * rem;
+
+    const targetCenter = padding + (index * (inactiveWidth + gap)) + (activeWidth / 2);
+    const containerCenter = container.clientWidth / 2;
+    const targetScrollLeft = Math.max(0, targetCenter - containerCenter);
+
+    animate(container.scrollLeft, targetScrollLeft, {
+      onUpdate: (latest) => {
+        if (container) container.scrollLeft = latest;
+      },
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1]
+    });
+  };
+
+  const handleInteraction = (index: number) => {
+    setActiveImage(index);
+    activeImageRef.current = index;
+    centerImage(index);
+  };
 
   useEffect(() => {
     const container = containerRef.current;
@@ -1052,51 +1083,30 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
     let lastWheelTime = 0;
 
     const handleWheel = (e: WheelEvent) => {
+      // Prioritize horizontal scrolling to pass natively
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
       if (Math.abs(e.deltaY) > 0) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const now = Date.now();
-        if (now - lastWheelTime < 150) return; // Throttled to 150ms for a smooth parse effect
-        lastWheelTime = now;
-
         const direction = Math.sign(e.deltaY);
-        setActiveImage((prev) => {
-          if (prev === null) return direction > 0 ? 1 : 0;
-          return Math.max(0, Math.min(images.length - 1, prev + direction));
-        });
+        const nextIndex = activeImageRef.current + direction;
+
+        // If we hit the boundary, release the scroll trap so the user can scroll the page
+        if (nextIndex >= 0 && nextIndex < images.length) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const now = Date.now();
+          if (now - lastWheelTime < 150) return;
+          lastWheelTime = now;
+
+          handleInteraction(nextIndex);
+        }
       }
     };
 
     container.addEventListener('wheel', handleWheel, { passive: false });
     return () => container.removeEventListener('wheel', handleWheel);
   }, [images]);
-
-  // Smoothly center the newly active image matching the expansion animation
-  useEffect(() => {
-    if (activeImage !== null && containerRef.current) {
-      const container = containerRef.current;
-      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-      
-      const rem = 16;
-      const inactiveWidth = (isMobile ? 2.5 : 5) * rem;
-      const activeWidth = (isMobile ? 18 : 28) * rem;
-      const gap = (isMobile ? 0.25 : 0.5) * rem;
-      const padding = (isMobile ? 1 : 2) * rem;
-
-      const targetCenter = padding + (activeImage * (inactiveWidth + gap)) + (activeWidth / 2);
-      const containerCenter = container.clientWidth / 2;
-      const targetScrollLeft = targetCenter - containerCenter;
-
-      animate(container.scrollLeft, targetScrollLeft, {
-        onUpdate: (latest) => {
-          if (container) container.scrollLeft = latest;
-        },
-        duration: 0.4,
-        ease: [0.22, 1, 0.36, 1]
-      });
-    }
-  }, [activeImage]);
 
   return (
     <motion.div
@@ -1124,8 +1134,11 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
                 height: activeImage === index ? (typeof window !== 'undefined' && window.innerWidth < 768 ? "20rem" : "28rem") : (typeof window !== 'undefined' && window.innerWidth < 768 ? "20rem" : "28rem"),
               }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => setActiveImage(index)}
-              onHoverStart={() => setActiveImage(index)}
+              onClick={() => handleInteraction(index)}
+              onHoverStart={() => {
+                setActiveImage(index);
+                activeImageRef.current = index;
+              }}
             >
 
               {image.imageUrl && (
