@@ -1087,20 +1087,32 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
 
       if (Math.abs(e.deltaY) > 0) {
+        e.preventDefault(); // Always prevent native wheel to avoid snap-jiggle
+        e.stopPropagation();
+
         const direction = Math.sign(e.deltaY);
         const nextIndex = activeImageRef.current + direction;
+        const now = Date.now();
 
-        // If we hit the boundary, release the scroll trap so the user can scroll the page
-        if (nextIndex >= 0 && nextIndex < images.length) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const now = Date.now();
-          if (now - lastWheelTime < 150) return;
+        // If we hit the boundary, forcefully switch the page to the next snap section
+        if (nextIndex < 0 || nextIndex >= images.length) {
+          if (now - lastWheelTime < 800) return; // Cooldown for page switch
           lastWheelTime = now;
 
-          handleInteraction(nextIndex);
+          const scrollParent = container.closest('.overflow-y-auto');
+          if (scrollParent) {
+            scrollParent.scrollBy({ top: direction * window.innerHeight, behavior: 'smooth' });
+          } else {
+            window.scrollBy({ top: direction * window.innerHeight, behavior: 'smooth' });
+          }
+          return;
         }
+
+        // Normal gallery parsing
+        if (now - lastWheelTime < 150) return;
+        lastWheelTime = now;
+
+        handleInteraction(nextIndex);
       }
     };
 
