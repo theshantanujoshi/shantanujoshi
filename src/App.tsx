@@ -1077,12 +1077,6 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
   };
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // Find the full-page section wrapper to capture ALL scrolls while on this page
-    const sectionElement = container.closest('.snap-start') || container;
-
     let lastWheelTime = 0;
 
     const handleWheel = (e: WheelEvent) => {
@@ -1090,26 +1084,20 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
 
       if (Math.abs(e.deltaY) > 0) {
-        e.preventDefault(); // Always prevent native wheel to avoid snap-jiggle
-        e.stopPropagation();
-
         const direction = Math.sign(e.deltaY);
         const nextIndex = activeImageRef.current + direction;
         const now = Date.now();
 
-        // If we hit the boundary, forcefully switch the page to the next snap section
+        // If we hit the boundary, do nothing.
+        // Let the event propagate down to GalleryPage's listener so it switches the page!
         if (nextIndex < 0 || nextIndex >= images.length) {
-          if (now - lastWheelTime < 800) return; // Cooldown for page switch
-          lastWheelTime = now;
-
-          const scrollParent = sectionElement.closest('.overflow-y-auto');
-          if (scrollParent) {
-            scrollParent.scrollBy({ top: direction * window.innerHeight, behavior: 'smooth' });
-          } else {
-            window.scrollBy({ top: direction * window.innerHeight, behavior: 'smooth' });
-          }
           return;
         }
+
+        // Otherwise, intercept the scroll completely so the page doesn't switch.
+        e.preventDefault(); 
+        e.stopPropagation();
+        e.stopImmediatePropagation();
 
         // Normal gallery parsing
         if (now - lastWheelTime < 150) return;
@@ -1119,8 +1107,9 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
       }
     };
 
-    sectionElement.addEventListener('wheel', handleWheel, { passive: false });
-    return () => sectionElement.removeEventListener('wheel', handleWheel);
+    // Attach to window in the capture phase so we intercept before GalleryPage!
+    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    return () => window.removeEventListener('wheel', handleWheel, { capture: true } as any);
   }, [images]);
 
   return (
