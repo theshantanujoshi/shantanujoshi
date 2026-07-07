@@ -37,9 +37,41 @@ const IconMap: Record<string, React.FC<any>> = {
 
 type PageType = 'INDEX' | 'EXPERIENCE' | 'PROJECTS' | 'GALLERY' | 'SOCIALS';
 
+const getInitialPage = (): PageType => {
+  if (typeof window === 'undefined') return 'INDEX';
+  const hash = window.location.hash.replace('#', '').toUpperCase();
+  if (['INDEX', 'EXPERIENCE', 'PROJECTS', 'GALLERY', 'SOCIALS'].includes(hash)) {
+    return hash as PageType;
+  }
+  return 'INDEX';
+};
+
 export default function App() {
-  const [activePage, setActivePage] = useState<PageType>('INDEX');
+  const [activePage, setActivePage] = useState<PageType>(getInitialPage());
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  // Sync activePage changes to URL hash (without cluttering history stack)
+  useEffect(() => {
+    if (activePage === 'INDEX') {
+      window.history.replaceState(null, '', window.location.pathname);
+    } else {
+      window.history.replaceState(null, '', `#${activePage.toLowerCase()}`);
+    }
+  }, [activePage]);
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '').toUpperCase();
+      if (['INDEX', 'EXPERIENCE', 'PROJECTS', 'GALLERY', 'SOCIALS'].includes(hash)) {
+        setActivePage(hash as PageType);
+      } else if (!hash) {
+        setActivePage('INDEX');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
