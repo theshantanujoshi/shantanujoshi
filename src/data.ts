@@ -171,21 +171,21 @@ export const TIMELINE_DATA: TimelineItem[] = [
     category: 'volunteering'
   },
   {
-    id: 'vol-gdg',
-    period: 'NOV 2025 — PRESENT',
-    company: 'GOOGLE DEVELOPER GROUPS LUCKNOW',
-    role: 'MEMBER',
-    details: 'Actively participating in developer events and community discussions for Google Developer Groups Lucknow. Focusing on frontend development tasks and engaging with the local tech community.',
-    stack: ['Community Engagement', 'UI Engineering'],
-    category: 'volunteering'
-  },
-  {
     id: 'vol-hack4good',
     period: 'APR 2026 — PRESENT',
     company: 'HACK4GOOD',
     role: 'VOLUNTEER',
     details: 'Coordinated venue logistics, managed attendee coordination, and captured real-time photo/video content to update the event\'s social media channels.',
     stack: ['Event Management', 'Public Relations'],
+    category: 'volunteering'
+  },
+  {
+    id: 'vol-gdg',
+    period: 'NOV 2025 — PRESENT',
+    company: 'GOOGLE DEVELOPER GROUPS LUCKNOW',
+    role: 'MEMBER',
+    details: 'Actively participating in developer events and community discussions for Google Developer Groups Lucknow. Focusing on frontend development tasks and engaging with the local tech community.',
+    stack: ['Community Engagement', 'UI Engineering'],
     category: 'volunteering'
   }
 ];
