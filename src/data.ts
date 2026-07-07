@@ -79,6 +79,15 @@ export const TIMELINE_DATA: TimelineItem[] = [
 
   // --- CERTIFICATIONS ---
   {
+    id: 'cert-nvidia',
+    period: 'ISSUED JUN 2026',
+    company: 'GOOGLE',
+    role: 'GOOGLE CLOUD & NVIDIA COMMUNITY',
+    details: 'Recognized for active participation and skills development in the Google Cloud & NVIDIA community.',
+    stack: ['Google Cloud', 'NVIDIA'],
+    category: 'certification'
+  },
+  {
     id: 'cert-vertex',
     period: 'ISSUED JUN 2026',
     company: 'GOOGLE',
@@ -156,8 +165,8 @@ export const TIMELINE_DATA: TimelineItem[] = [
     id: 'vol-gdg',
     period: 'NOV 2025 — PRESENT',
     company: 'GOOGLE DEVELOPER GROUPS LUCKNOW',
-    role: 'VOLUNTEER',
-    details: 'Help organize developer events and operations for Google Developer Groups Lucknow, including DevFest. Focus on coordinating frontend development tasks, maintaining our web pages, and supporting logistics.',
+    role: 'MEMBER',
+    details: 'Actively participating in developer events and community discussions for Google Developer Groups Lucknow. Focusing on frontend development tasks and engaging with the local tech community.',
     stack: ['Community Engagement', 'UI Engineering'],
     category: 'volunteering'
   },
