@@ -1074,8 +1074,8 @@ function LinkItem({ link, IconComponent }: { link: any, IconComponent: any, key?
 }
 
 function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA, className?: string }) {
-  const [activeImage, setActiveImage] = useState<number | null>(1);
-  const activeImageRef = useRef<number>(1);
+  const [activeImage, setActiveImage] = useState<number | null>(0);
+  const activeImageRef = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const centerImage = (index: number) => {
