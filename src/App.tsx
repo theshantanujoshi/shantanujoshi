@@ -1176,7 +1176,7 @@ function HoverExpandGallery({ images, className }: { images: typeof JOURNAL_DATA
               {image.imageUrl && (
                 <img
                   src={image.imageUrl}
-                  className={`absolute inset-0 size-full object-cover transition-all duration-700 ${activeImage === index ? 'grayscale-0' : 'grayscale opacity-60'}`}
+                  className={`absolute top-0 left-1/2 -translate-x-1/2 w-[18rem] md:w-[28rem] h-[20rem] md:h-[28rem] max-w-none object-cover transition-all duration-700 ${activeImage === index ? 'grayscale-0' : 'grayscale opacity-60'}`}
                   alt={image.imageAlt || image.title}
                   loading="lazy"
                   decoding="async"
